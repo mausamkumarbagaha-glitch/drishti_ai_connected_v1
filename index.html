@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#104f49">
+<meta name="description" content="Voice-first accessibility companion for travel and daily tasks.">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<title>Drishti AI — Everyday Companion</title>
+<style>
+:root{color-scheme:light;--green:#104f49;--green2:#0b3b37;--ink:#112321;--paper:#f3f8f6;--card:#fff;--border:#55716d;--muted:#405955;--red:#a31b1b;--amber:#704900;--focus:#ffbf47}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:20px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}header{background:var(--green);color:#fff;padding:18px max(16px,calc((100vw - 850px)/2));padding-top:max(18px,env(safe-area-inset-top));}header h1{font-size:2rem;line-height:1.15;margin:0}header p{margin:6px 0 0}.wrap{max-width:850px;margin:auto;padding:14px 14px calc(38px + env(safe-area-inset-bottom))}.panel{background:var(--card);border:2px solid #c3d2ce;border-radius:18px;padding:16px;margin:14px 0;box-shadow:0 2px 7px #10201e0a}.panel h2{font-size:1.25rem;margin:0 0 10px}.status{padding:14px;border-radius:12px;background:#e7f1ee;min-height:62px;margin:8px 0 12px;border:1px solid #bdd0cb}.connectivity{font-size:16px;padding:8px 11px;border-radius:10px;background:#eef2f1;color:#122a27;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}.online{font-weight:800;color:#075c2e}.offline{font-weight:800;color:#8a1616}.small{font-size:16px;color:var(--muted)}button,input,select{font:inherit;min-height:60px;width:100%;border:2px solid var(--border);border-radius:12px;padding:12px;background:#fff;color:var(--ink)}button{font-weight:750;cursor:pointer;margin:5px 0}button:focus-visible,input:focus-visible,select:focus-visible{outline:4px solid var(--focus);outline-offset:3px}.primary{background:var(--green);color:#fff;border-color:var(--green)}.danger{background:var(--red);color:#fff;border-color:var(--red)}.secondary{background:#e7f1ee}.grid{display:grid;grid-template-columns:1fr;gap:8px}.two{grid-template-columns:1fr}.four{grid-template-columns:1fr}.field{margin:10px 0}.field label{display:block;font-weight:750;margin-bottom:5px}.service-result{border-top:1px solid #d2ddda;padding:12px 0}.service-result:first-child{border-top:0}.service-result strong{display:block;font-size:18px}.distance{color:var(--muted);font-size:16px}.chip{display:inline-block;border:1px solid #91aaa4;border-radius:999px;padding:2px 9px;font-size:15px;margin:2px}.notice{border-left:5px solid #ab8000;background:#fff7dd;padding:12px;border-radius:8px;font-size:16px}.footer{font-size:15px;color:var(--muted);padding:12px 3px}.visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}#cameraInput{padding:8px;height:auto}.busy{opacity:.65;pointer-events:none}.result-actions{display:flex;gap:8px;flex-wrap:wrap}.result-actions button{flex:1;min-width:165px}@media(min-width:600px){.grid.two{grid-template-columns:1fr 1fr}.grid.four{grid-template-columns:1fr 1fr}.wrap{padding-left:20px;padding-right:20px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto;*{animation:none!important;transition:none!important}}}
+</style>
+</head>
+<body>
+<header><h1>Drishti AI</h1><p>Your voice-first everyday companion</p></header>
+<main class="wrap">
+  <div class="connectivity" aria-live="polite"><span>Internet status</span><strong id="networkStatus">Checking…</strong><span id="serviceStatus">Online services checked when used</span></div>
+  <p class="small">For blind and low-vision users. Use your usual mobility aid. Start with a familiar route and a trusted companion.</p>
+
+  <section class="panel" aria-labelledby="assistantHeading">
+    <h2 id="assistantHeading">Talk to Drishti</h2>
+    <p id="status" class="status" role="status" aria-live="polite" aria-atomic="true">Ready. Choose your language, then tap Speak to Drishti.</p>
+    <div class="grid two"><button id="speak" class="primary">🎙 Speak to Drishti</button><button id="repeat">Repeat last message</button></div>
+    <button id="stop" class="secondary">Stop spoken audio</button>
+    <p class="small">Voice recognition is started only when you tap the button. Phone/browser support and internet access may affect recognition.</p>
+  </section>
+
+  <section class="panel" aria-labelledby="travelHeading">
+    <h2 id="travelHeading">Plan a journey</h2>
+    <div class="field"><label for="destination">Destination</label><input id="destination" autocomplete="off" placeholder="Say or type a place, station or address"></div>
+    <div class="field"><label for="travelMode">Travel mode</label><select id="travelMode"><option value="walking">Walking</option><option value="transit">Metro / public transport</option><option value="driving">Driving / car</option></select></div>
+    <button id="directions" class="primary">Open directions in Maps</button>
+    <button id="goHome">Take me to saved home</button>
+    <p class="small">Maps provides the route and its navigation experience. This app does not independently verify pavements, traffic signals or crossing safety.</p>
+  </section>
+
+  <section class="panel" aria-labelledby="nearbyHeading">
+    <h2 id="nearbyHeading">Find nearby services online</h2>
+    <p class="small">Uses nearby community-mapped places when internet and location are available. Results may be missing or outdated; always verify signs and surroundings.</p>
+    <div class="grid two">
+      <button data-nearby="metro">🚇 Nearest metro / rail station</button>
+      <button data-nearby="bus">🚌 Bus stops</button>
+      <button data-nearby="hospital">🏥 Hospitals</button>
+      <button data-nearby="pharmacy">💊 Pharmacies</button>
+      <button data-nearby="atm">🏧 ATMs</button>
+      <button data-nearby="toilets">🚻 Public toilets</button>
+    </div>
+    <div id="nearbyResults" aria-live="polite" aria-label="Nearby places"></div>
+  </section>
+
+  <section class="panel" aria-labelledby="dailyHeading">
+    <h2 id="dailyHeading">Read printed text</h2>
+    <p class="small">Take or select a photo of a sign, label or document. OCR runs in this browser after its code and language data are downloaded. Results can be wrong, especially on medicine labels; confirm important information.</p>
+    <label for="cameraInput">Choose or take a photo</label>
+    <input id="cameraInput" type="file" accept="image/*" capture="environment">
+    <button id="readPhoto" class="primary">Read text from photo aloud</button>
+    <p id="ocrStatus" role="status" aria-live="polite" class="small">Camera text reading is ready when you select an image.</p>
+    <div id="ocrText" class="status" role="region" aria-label="Recognized text" tabindex="0">Recognized text will appear here.</div>
+  </section>
+
+  <section class="panel" aria-labelledby="locationHeading">
+    <h2 id="locationHeading">Location and family help</h2>
+    <button id="where" class="primary">Where am I? Share my location</button>
+    <div class="field"><label for="home">Saved home address (stored on this device)</label><input id="home" placeholder="Enter home address"></div>
+    <button id="saveHome" class="secondary">Save home address</button>
+    <div class="field"><label for="contact">Trusted contact phone (stored on this device)</label><input id="contact" type="tel" inputmode="tel" placeholder="Phone number with country code if needed"></div>
+    <button id="saveContact" class="secondary">Save trusted contact</button>
+    <button id="callContact">Call my trusted contact</button>
+    <button id="emergency" class="danger">Emergency call — India 112</button>
+    <p class="notice"><strong>Emergency limitation:</strong> this opens your phone's dialer for you to review and place the call. It does not silently call, alert family, or continuously share location.</p>
+  </section>
+
+  <section class="panel" aria-labelledby="settingsHeading">
+    <h2 id="settingsHeading">Personal settings</h2>
+    <div class="field"><label for="language">Spoken language</label><select id="language"><option value="hi-IN">हिंदी</option><option value="en-IN">English (India)</option></select></div>
+    <button id="checkInternet">Check internet connection</button>
+    <button id="clearSettings">Clear saved home and contact from this device</button>
+    <p class="small">Keep these settings private. Do not enter bank PINs, passwords or other secrets.</p>
+  </section>
+
+  <p class="footer">Online services: Google Maps for navigation links; OpenStreetMap community data via public Overpass instances for nearby places; Tesseract.js for in-browser text recognition. External services can be slow or unavailable. No continuous tracking is performed.</p>
+  <p class="footer"><strong>Not a replacement for a white cane, guide dog, orientation-and-mobility skills, or careful road-crossing practice.</strong> Never cross a road solely because AI or this app says it looks clear.</p>
+</main>
+<script src="app.js" defer></script>
+</body>
+</html>
